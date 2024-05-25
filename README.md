@@ -2,6 +2,8 @@
 
 This is a NestJS-based API for managing books and authors, with authentication functionalities using JWT. The API supports creating, updating, deleting, and retrieving books and authors, as well as user registration and login.
 
+This project is a web application written in MySQL using Sequelize
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -40,6 +42,7 @@ This is a NestJS-based API for managing books and authors, with authentication f
     JWT_SECRET=jwtsecret
     JWT_EXP=2h
     ```
+4. Install Mysql database and create database with name `books`    
 
 ## Running the Application
 
@@ -140,7 +143,7 @@ This is a NestJS-based API for managing books and authors, with authentication f
     PATCH /books/:id
     ```
     Headers:
-    ```json
+    ```
     Authorization: Bearer jwt_token
     ```
     Request Body:
@@ -178,11 +181,11 @@ This is a NestJS-based API for managing books and authors, with authentication f
     DELETE /books/:id
     ```
     Headers:
-    ```json
+    ```
     Authorization: Bearer jwt_token
     ```
     Response:
-    ```json
+    ```
     Deleted successfully
     ```
      Unauthorized Response:
@@ -201,7 +204,7 @@ This is a NestJS-based API for managing books and authors, with authentication f
     POST /authors
     ```
     Headers:
-    ```json
+    ```
     Authorization: Bearer jwt_token
     ```
     Request Body:
@@ -273,7 +276,7 @@ This is a NestJS-based API for managing books and authors, with authentication f
     PATCH /authors/:id
     ```
     Headers:
-    ```json
+    ```
     Authorization: Bearer jwt_token
     ```
     Request Body:
@@ -309,11 +312,11 @@ This is a NestJS-based API for managing books and authors, with authentication f
     DELETE /authors/:id
     ```
     Headers:
-    ```json
+    ```
     Authorization: Bearer jwt_token
     ```
     Response:
-    ```json
+    ```
     Deleted successfully
     ```
     Unauthorized Response:
