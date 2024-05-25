@@ -1,13 +1,10 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
-import { CreateBookDto } from './dto/create-book.dto';
-import { UpdateBookDto } from './dto/update-book.dto';
+import { CreateBookDto } from './dtos/create-book.dto';
+import { UpdateBookDto } from './dtos/update-book.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Book } from './models/books.model';
 import { Author } from '../authors/models/authors.model';
-import {
-  ERROR_MESSAGES,
-  RESPONSE_MESSAGES,
-} from 'src/common/constants/responseMessages.constant';
+import { ERROR_MESSAGES, RESPONSE_MESSAGES } from '../common/constants/responseMessages.constant';
 
 @Injectable()
 export class BooksService {

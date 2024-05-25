@@ -1,73 +1,409 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS Fictional Book Management System API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a NestJS-based API for managing books and authors, with authentication functionalities using JWT. The API supports creating, updating, deleting, and retrieving books and authors, as well as user registration and login.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Table of Contents
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Endpoints](#endpoints)
+  - [Books](#books)
+  - [Authors](#authors)
+  - [Auth](#auth)
+- [Running Tests](#running-tests)
 
 ## Installation
 
-```bash
-$ npm install
-```
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Tigran-85/Books-Authors.git
+    cd Books-Authors
+    ```
 
-## Running the app
+2. Install the dependencies:
+    ```bash
+    npm install
+    ```
 
-```bash
-# development
-$ npm run start
+3. Set up your environment variables. Create a `.env` file in the root of your project and add the following:
+    ```env
+    #DB credentials
 
-# watch mode
-$ npm run start:dev
+    DATABASE_HOST=localhost
+    DATABASE_PORT=3306
+    DATABASE_USERNAME=root
+    DATABASE_PASSWORD=root
+    DATABASE_NAME=books
 
-# production mode
-$ npm run start:prod
-```
+    #JWT CREDENTIALS
 
-## Test
+    JWT_SECRET=jwtsecret
+    JWT_EXP=2h
+    ```
 
-```bash
-# unit tests
-$ npm run test
+## Running the Application
 
-# e2e tests
-$ npm run test:e2e
+1. Start the application:
+    ```bash
+    npm run start
+    ```
+2. Start the application in development mode:
+    ```bash
+    npm run start:dev
+    ```    
 
-# test coverage
-$ npm run test:cov
-```
+3. The application will be running at `http://localhost:3000`.
 
-## Support
+## Endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Books
 
-## Stay in touch
+- **Create a Book**
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    ```http
+    POST /books
+    ```
+    Headers:
+    ```json
+    Authorization: Bearer jwt_token
+    ```
+    Request Body:
+    ```json
+    {
+      "title": "Book Title",
+      "authorId": 1,
+      "ISBN": "123-456-789",
+      "publishedDate": "2024-05-25"
+    }
+    ```
+    Response:
+    ```json
+    {
+      "id": 9,
+      "authorId": 3,
+      "title": "Book Title",
+      "ISBN": "123-456-789",
+      "publishedDate": "2024-05-06T00:00:00.000Z",
+      "updatedAt": "2024-05-25T15:39:19.621Z",
+      "createdAt": "2024-05-25T15:39:19.621Z"
+    }
+    ```
+    Unauthorized Response:
+    ```json
+    {
+      "statusCode": 401,
+      "message": "Unauthorized"
+    }
+    ```
+
+- **Get All Books**
+
+    ```http
+    GET /books
+    ```
+    Response:
+    ```json
+    [
+      {
+        "id": 8,
+        "title": "Book Title",
+        "ISBN": "ISBN-test",
+        "publishedDate": "2024-05-06T00:00:00.000Z",
+        "authorId": 3,
+        "createdAt": "2024-05-25T15:36:43.000Z",
+        "updatedAt": "2024-05-25T15:36:43.000Z"
+      }
+  ]
+    ```
+
+- **Get a Book by ID**
+
+    ```http
+    GET /books/:id
+    ```
+    Response:
+    ```json
+    {
+      "id": 8,
+      "title": "Book Title",
+      "ISBN": "ISBN-test",
+      "publishedDate": "2024-05-06T00:00:00.000Z",
+      "authorId": 3,
+      "createdAt": "2024-05-25T15:36:43.000Z",
+      "updatedAt": "2024-05-25T15:36:43.000Z"
+    }
+    ```
+
+- **Update a Book**
+
+    ```http
+    PATCH /books/:id
+    ```
+    Headers:
+    ```json
+    Authorization: Bearer jwt_token
+    ```
+    Request Body:
+    ```json
+    {
+      "title": "Updated Book Title",
+      "authorId": 1,
+      "ISBN": "123-456-789",
+      "publishedDate": "2024-05-25"
+    }
+    ```
+    Response:
+    ```json
+    {
+      "id": 8,
+      "title": "Book Title",
+      "ISBN": "ISBN-test",
+      "publishedDate": "2024-05-06T00:00:00.000Z",
+      "authorId": 3,
+      "createdAt": "2024-05-25T15:36:43.000Z",
+      "updatedAt": "2024-05-25T15:36:43.000Z"
+    }
+    ```
+     Unauthorized Response:
+    ```json
+    {
+      "statusCode": 401,
+      "message": "Unauthorized"
+    }
+    ```
+
+- **Delete a Book**
+
+    ```http
+    DELETE /books/:id
+    ```
+    Headers:
+    ```json
+    Authorization: Bearer jwt_token
+    ```
+    Response:
+    ```json
+    Deleted successfully
+    ```
+     Unauthorized Response:
+    ```json
+    {
+      "statusCode": 401,
+      "message": "Unauthorized"
+    }
+    ```
+
+### Authors
+
+- **Create an Author**
+
+    ```http
+    POST /authors
+    ```
+    Headers:
+    ```json
+    Authorization: Bearer jwt_token
+    ```
+    Request Body:
+    ```json
+    {
+      "name": "Author Name",
+      "biography": "Author Biography",
+      "dateOfBirth": "1970-01-01"
+    }
+    ```
+    Response:
+    ```json
+    {
+      "id": 6,
+      "name": "Author Name",
+      "biography": "Author Biography",
+      "dateOfBirth": "1985-07-07T00:00:00.000Z",
+      "updatedAt": "2024-05-25T15:36:07.679Z",
+      "createdAt": "2024-05-25T15:36:07.679Z"
+    }
+    ```
+     Unauthorized Response:
+    ```json
+    {
+      "statusCode": 401,
+      "message": "Unauthorized"
+    }
+    ```
+
+- **Get All Authors**
+
+    ```http
+    GET /authors
+    ```
+    Response:
+    ```json
+    [
+      {
+        "id": 4,
+        "name": "test2",
+        "biography": "biography",
+        "dateOfBirth": "1985-07-07T00:00:00.000Z",
+        "createdAt": "2024-05-20T22:27:03.000Z",
+        "updatedAt": "2024-05-20T22:27:03.000Z"
+      }
+  ]
+    ```
+
+- **Get an Author by ID**
+
+    ```http
+    GET /authors/:id
+    ```
+     Response:
+    ```json
+    {
+      "id": 6,
+      "name": "test4",
+      "biography": "biography",
+      "dateOfBirth": "1985-07-07T00:00:00.000Z",
+      "updatedAt": "2024-05-25T15:36:07.679Z",
+      "createdAt": "2024-05-25T15:36:07.679Z"
+    }
+    ```
+
+- **Update an Author**
+
+    ```http
+    PATCH /authors/:id
+    ```
+    Headers:
+    ```json
+    Authorization: Bearer jwt_token
+    ```
+    Request Body:
+    ```json
+    {
+      "name": "Updated Author Name",
+      "biography": "Updated Biography",
+      "dateOfBirth": "1970-01-01"
+    }
+    ```
+     Response:
+    ```json
+    {
+      "id": 6,
+      "name": "Updated Author Name",
+      "biography": "Updated Biography",
+      "dateOfBirth": "1970-01-01T00:00:00.000Z",
+      "updatedAt": "2024-05-25T15:36:07.679Z",
+      "createdAt": "2024-05-25T15:36:07.679Z"
+    }
+    ```
+    Unauthorized Response:
+    ```json
+    {
+      "statusCode": 401,
+      "message": "Unauthorized"
+    }
+    ```
+
+- **Delete an Author**
+
+    ```http
+    DELETE /authors/:id
+    ```
+    Headers:
+    ```json
+    Authorization: Bearer jwt_token
+    ```
+    Response:
+    ```json
+    Deleted successfully
+    ```
+    Unauthorized Response:
+    ```json
+    {
+      "statusCode": 401,
+      "message": "Unauthorized"
+    }
+    ```
+
+### Auth
+
+- **Sign Up**
+
+    ```http
+    POST /auth/signUp
+    ```
+
+    Request Body:
+    ```json
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "test@example.com",
+      "password": "Password123!"
+    }
+    ```
+     Response:
+    ```json
+    {
+      "statusCode": 201,
+      "data": {
+        "user": {
+            "id": 14,
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "test@example.com",
+            "updatedAt": "2024-05-25T18:27:48.580Z",
+            "createdAt": "2024-05-25T18:27:48.580Z"
+        },
+        "accessToken": "accessTokenCode"
+      }
+    }
+    ```
+
+- **Sign In**
+
+    ```http
+    POST /auth/signIn
+    ```
+
+    Request Body:
+    ```json
+    {
+      "email": "test@example.com",
+      "password": "Password123!"
+    }
+    ```
+     Response:
+    ```json
+    {
+      "statusCode": 201,
+      "data": {
+        "user": {
+            "id": 14,
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "test@example.com",
+            "updatedAt": "2024-05-25T18:27:48.580Z",
+            "createdAt": "2024-05-25T18:27:48.580Z"
+        },
+        "accessToken": "accessTokenCode"
+      }
+    }
+    ```
+
+## Running Tests
+
+1. To run all tests:
+    ```bash
+    npm test
+    ```
+
+2. To run tests for a specific controller, use the following command:
+    ```bash
+    npm test -- src/books/books.controller.spec.ts
+    ```
+
+    Replace `src/books/books.controller.spec.ts` with the path to the test file you want to run.
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

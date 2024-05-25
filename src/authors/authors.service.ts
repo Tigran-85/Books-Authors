@@ -1,12 +1,9 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateAuthorDto } from './dto/create-author.dto';
-import { UpdateAuthorDto } from './dto/update-author.dto';
+import { CreateAuthorDto } from './dtos/create-author.dto';
+import { UpdateAuthorDto } from './dtos/update-author.dto';
 import { Author } from './models/authors.model';
-import {
-  ERROR_MESSAGES,
-  RESPONSE_MESSAGES,
-} from 'src/common/constants/responseMessages.constant';
+import { ERROR_MESSAGES, RESPONSE_MESSAGES } from '../common/constants/responseMessages.constant';
 
 @Injectable()
 export class AuthorsService {

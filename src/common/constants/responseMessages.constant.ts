@@ -25,9 +25,15 @@ export const ERROR_MESSAGES = {
   UNAUTHORIZED_USER: 'Unauthorized user',
   INVALID_TOKEN: 'Invalid token',
   INVALID_OLD_PASSWORD: 'Your old password was typed incorrectly',
-  NOT_ALLOWED: 'Not allowed'
+  NOT_ALLOWED: 'Not allowed',
 };
 
 export const VALIDATION_ERROR_MESSAGES = {
-  
+  INVALID_FIRSTNAME:
+    'Please enter your first name. It should be between 1 and 50 characters long.',
+  INVALID_LASTNAME:
+    'Please enter your last name. It should be between 1 and 50 characters long.',
+  INVALID_EMAIL: 'Please enter a valid email address.',
+  INVALID_PASSWORD:
+    'Please enter a password that is at least 8 characters long and includes at least one uppercase letter, one lowercase letter and one number',
 };

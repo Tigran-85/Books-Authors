@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateAuthorDto } from './create-author.dto';
-import { IsNotEmpty, IsString, IsDate } from 'class-validator';
+import { IsNotEmpty, IsString, IsDateString } from 'class-validator';
 
 export class UpdateAuthorDto extends PartialType(CreateAuthorDto) {
     @IsString()
@@ -11,7 +11,7 @@ export class UpdateAuthorDto extends PartialType(CreateAuthorDto) {
     @IsNotEmpty()
     readonly biography: string;
 
-    @IsDate()
+    @IsDateString()
     @IsNotEmpty()
     readonly dateOfBirth: Date;
 }
